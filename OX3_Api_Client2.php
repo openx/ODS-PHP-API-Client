@@ -77,7 +77,7 @@ class OX3_Api_Client2 extends ZendRest\Client\RestClient
                 'authorizeUrl'      => $sso['authorizeUrl'],
                 'consumerKey'       => $consumer_key,
                 'consumerSecret'    => $consumer_secret,
-		'timeout' 	    => 40
+		'timeout' 	    => 240
             );
             $oAuth = new ZendOauth\Consumer($config);
             // in order to enforce the Content-Length header to be set, pass a dummy param
