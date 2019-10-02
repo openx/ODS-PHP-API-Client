@@ -43,11 +43,12 @@ $ sudo chmod +x /usr/local/bin/composer
 composer init
 ```$ composer init```
 
-- add in BOTH "require" and "require-dev" following dependencies:
-zendframework/zendframework (version 2.5.1)
+- add in the "require" (alternatively in both "require" and "require-dev") following dependencies:
+```
+zendframework/zendframework (version >= 2.5.1)
 zendoauth
 zendrest
-
+```
 (Composer will ask you whether you want to install these packages now, please do so)
 
 8. Configure set_path.php file
