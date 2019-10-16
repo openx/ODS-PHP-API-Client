@@ -37,27 +37,19 @@ $ sudo chmod +x /usr/local/bin/composer
 ```
 
 5. Clone php client repository into your workspace
-```$ git clone https://github.com/openx/ODS-PHP-API-Client```
+```$ git clone https://github.com/openx/ox-ods-php-test```
 
-7. Initialize the composer in your workspace catalog:
-composer init
-```$ composer init```
+6. Install required dependencies with composer
+```$ composer install```
 
-- add in the "require" (alternatively in both "require" and "require-dev") following dependencies:
-```
-zendframework/zendframework (version >= 2.5.1)
-zendoauth
-zendrest
-```
-(Composer will ask you whether you want to install these packages now, please do so)
-
-8. Configure set_path.php file
+7. Configure set_path.php file
 - the value of '$path1' variable should point to 'vendor' directory in your workspace
 
 ### II. SETTING UP THE PHP API CLIENT
 
 1. Add your credentials in pull_fields.php, date_range.php and pull_report.php files
 2. Adjust the settings of your report in the variable: $myJson
+3. Adjust the settings of your account/site/adunit in the variable: $adunit_query
 
 DONE
 
@@ -69,3 +61,6 @@ DONE
 
 - Run pull_report.php to see pull your report
 ```$ php pull_report.php```
+
+- Run ox_post.php to create an account/adunit etc
+```$ php ox_post.php```

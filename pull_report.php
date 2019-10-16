@@ -1,21 +1,19 @@
 <?php
 
-// if Using Zend Framework 2
-require_once 'OX3_Api_Client2.php';
+require_once 'OX_ODS_API.php';
 
-$uri      = 'http://yourdomain-ui.openx.net';
-$email    = 'your@email.com';
-$password = 'your_sso_password';
-$key      = 'your_consumer_key';
-$secret   = 'your_consumer_secret';
-$realm    = 'your_realm';
+$uri      = 'http://myopenx-ui.com';
+$email    = 'my_email';
+$password = 'my_password';
+$key      = 'my_consumer_key';
+$secret   = 'my_consumer_secret';
+$realm    = 'my_realm';
 
-// if Using Zend Framework 2
-$client = new OX3_API_Client2($uri, $email, $password, $key, $secret, $realm);
+$client = new OX_ODS_API($uri, $email, $password, $key, $secret, $realm);
 
 $myJson = array(
-	'startDate' => '20190901',
-	'endDate' => '20190909',
+	'startDate' => '2019-09-20T00:00:01Z',
+	'endDate' => '2019-09-20T23:59:01Z',
 	'attributes' => array(array('id' => 'publisherSiteId'), array('id' => 'hour')
 	   ),
 	'metrics' => array(array('id' => 'marketRequests'), array('id' => 'marketImpressions'))

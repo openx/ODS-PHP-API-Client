@@ -1,0 +1,13 @@
+{
+    "name": "ox/php-api-client",
+    "require": {
+        "zendframework/zendframework": "2.5.1",
+	"zendframework/zendoauth": "^2.0",
+        "zendframework/zendrest": "^2.0"
+    },
+    "require-dev": {
+        "zendframework/zendframework": "2.5.1",
+        "zendframework/zendrest": "^2.0",
+        "zendframework/zendoauth": "^2.0"
+    }
+}
