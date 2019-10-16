@@ -20,14 +20,14 @@ $ sudo apt-get install php7.2-ldap
 $ sudo apt-get install zip unzip
 ```
 
-3. Use the command "php --ini" to identify which config file does your php use. Then edit it (with sudo!) 
-Please make sure to adjust the 
+3. Use the command "php --ini" to identify which config file your php uses. Then edit it (with sudo!) 
+Please make sure to adjust the following:
 ```
 max_execution_time
 max_input_time
 default_socket_timeout
 ```
-to a higher number (example 240) so that PHP won't kill the script during execution (in case of large reports).
+to a higher number (eg. 240) so that PHP won't kill the script during it's execution (in case of large reports).
 
 4. Install PHP Composer
 ```sh
@@ -48,8 +48,8 @@ $ sudo chmod +x /usr/local/bin/composer
 ### II. SETTING UP THE PHP API CLIENT
 
 1. Add your credentials in pull_fields.php, date_range.php and pull_report.php files
-2. Adjust the settings of your report in the variable: $myJson
-3. Adjust the settings of your account/site/adunit in the variable: $adunit_query
+2. Adjust the settings of your report in the following variable: $myJson
+3. Adjust the settings of your account/site/adunit in the following variable: $adunit_query
 
 DONE
 
