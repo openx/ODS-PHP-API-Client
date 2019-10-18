@@ -37,7 +37,7 @@ $ sudo chmod +x /usr/local/bin/composer
 ```
 
 5. Clone php client repository into your workspace
-```$ git clone https://github.com/openx/ox-ods-php-test```
+```$ git clone https://github.com/openx/ODS-PHP-API-Client```
 
 6. Install required dependencies with composer
 ```$ composer install```
@@ -47,7 +47,7 @@ $ sudo chmod +x /usr/local/bin/composer
 
 ### II. SETTING UP THE PHP API CLIENT
 
-1. Add your credentials in pull_fields.php, date_range.php and pull_report.php files
+1. Add your credentials in pull_fields.php, date_range.php, pull_report.php and ox_post.php files
 2. Adjust the settings of your report in the following variable: $myJson
 3. Adjust the settings of your account/site/adunit in the following variable: $adunit_query
 
