@@ -1,4 +1,4 @@
 <?php  
-$path1 = '/path/to/your/workspace/php_client/vendor/';  
+$path1 = '/my/path/to/php-client/vendor/';  
 set_include_path($path1);  
 ?> 

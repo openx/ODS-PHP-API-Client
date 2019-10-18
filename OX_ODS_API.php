@@ -22,16 +22,13 @@ class PatchedAccessToken extends ZendOAuth\Http\AccessToken {
         return $client;
     }
 }
-class OX3_Api_Client2 extends ZendRest\Client\RestClient 
+class OX_ODS_API extends ZendRest\Client\RestClient 
 {
-    var $path_prefix = '/ox/4.0';
-    public function __construct($uri, $email, $password, $consumer_key, $consumer_secret, $oauth_realm, $cookieJarFile = './OX3_Api_CookieJar.txt', $sso = array(), $proxy = array(), $path = '/ox/4.0')
+    var $path_prefix = '/data/1.0';
+    public function __construct($uri, $email, $password, $consumer_key, $consumer_secret, $oauth_realm, $cookieJarFile = './OX3_Api_CookieJar.txt', $sso = array(), $proxy = array(), $path = '/data/1.0')
     {
-        if (preg_match('#/ox/[0-9]\.0#', $path)) {
-            $this->path_prefix = $path;
-        } else {
-            throw new Exception ("Invalid path prefix specified");
-        }
+        $this->path_prefix = '/data/1.0';
+		
         if (empty($proxy)) { $proxy = array(); }
         parent::__construct($uri);
         $aUrl = parse_url($uri);
@@ -72,7 +69,8 @@ class OX3_Api_Client2 extends ZendRest\Client\RestClient
                 'accessTokenUrl'    => $sso['accessTokenUrl'],
                 'authorizeUrl'      => $sso['authorizeUrl'],
                 'consumerKey'       => $consumer_key,
-                'consumerSecret'    => $consumer_secret
+                'consumerSecret'    => $consumer_secret,
+				'timeout' 	    	=> 240
             );
             $oAuth = new ZendOauth\Consumer($config);
             // in order to enforce the Content-Length header to be set, pass a dummy param
@@ -114,22 +112,13 @@ class OX3_Api_Client2 extends ZendRest\Client\RestClient
     protected function _checkAccessToken()
     {
         switch ($this->path_prefix) {
-            case '/ox/3.0':
-                return $this->_checkAccessTokenV3();
-                break;
-            case '/ox/4.0':
+            case '/data/1.0':
                 return $this->_checkAccessTokenV4();
                 break;
             default:
                 throw new Exception('Unknown API path');
                 break;
         }
-    }
-    
-    protected function _checkAccessTokenV3()
-    {
-        $result = $this->put('/a/session/validate');
-        return $result;
     }
     
     protected function _checkAccessTokenV4()
@@ -204,19 +193,20 @@ class OX3_Api_Client2 extends ZendRest\Client\RestClient
      */
     protected function performPost($method, $data = null)
     {
+				
         $client = $this->getHttpClient();
         $client->setMethod($method);
+	    $client->setRawBody($data);
+	    $client->setEncType('application/json');
+	
         $request = $client->getRequest();
-        
-echo $request;
-	if (is_string($data)) {
+        return $client->send();
+		
+        if (is_string($data)) {
             $client->setContent($data);
         } elseif (is_array($data) || is_object($data)) {
             switch ($this->path_prefix) {
-                case '/ox/3.0':
-                    $request->getPost()->fromArray((array) $data);
-                    break;
-                case '/ox/4.0':
+                case '/data/1.0':
                     $rawData = $client->setRawBody(json_encode((array) $data));
                     $headers = $client->setHeaders(array('Content-Type: application/json'));
                     break;
@@ -230,6 +220,7 @@ echo $request;
             }
         }
         return $client->send($request);
+		
     }
     /**
      * Set a file to upload (using a POST request)
@@ -278,37 +269,10 @@ echo $request;
     function update($entity, $id, $data)
     {
         switch ($this->path_prefix) {
-            case '/ox/3.0':
-                return $this->updateV3($entity, $id, $data);
-                break;
-            case '/ox/4.0':
+            case '/data/1.0':
                 return $this->updateV4($entity, $id, $data);
                 break;
         }   
-    }
-    
-    function updateV3($entity, $id, $data)
-    {
-        $current         = json_decode($this->get('/a/' . $entity . '/' . $id)->getBody());
-        $params = array('action' => 'update');
-        $requiredFields  = json_decode($this->get('/a/' . $entity . '/requiredFields', $params)->getBody());
-        $availableFields = json_decode($this->get('/a/' . $entity . '/availableFields')->getBody());
-        foreach ($requiredFields as $field => $type) {
-            if ($availableFields->$field->has_dependencies) {
-                $params[$field] = $current->$field;
-            }
-        }
-        $requiredFields  = json_decode($this->get('/a/' . $entity . '/requiredFields', $params)->getBody());
-        $update = array();
-        foreach($requiredFields as $requiredField => $type) {
-            if (property_exists($current, $requiredField)) {
-                $update[$requiredField] = (is_null($current->$requiredField)) ? 'null' : $current->$requiredField;
-            }
-        }
-        foreach ($data as $key => $value) {
-            $update[$key] = (is_null($value)) ? 'null' : $value;
-        }
-        return $this->post('/a/' . $entity . '/' . $id, $update);
     }
     
     function updateV4($entity, $id, $data)
