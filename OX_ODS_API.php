@@ -70,7 +70,7 @@ class OX_ODS_API extends ZendRest\Client\RestClient
                 'authorizeUrl'      => $sso['authorizeUrl'],
                 'consumerKey'       => $consumer_key,
                 'consumerSecret'    => $consumer_secret,
-				'timeout' 	    	=> 240
+		'timeout' 	    => 240
             );
             $oAuth = new ZendOauth\Consumer($config);
             // in order to enforce the Content-Length header to be set, pass a dummy param
@@ -194,10 +194,13 @@ class OX_ODS_API extends ZendRest\Client\RestClient
     protected function performPost($method, $data = null)
     {
 				
-        $client = $this->getHttpClient();
+	$client = $this->getHttpClient();
+	$client->setOptions(array(
+                        'timeout'      => 120
+                        ));
         $client->setMethod($method);
-	    $client->setRawBody($data);
-	    $client->setEncType('application/json');
+	$client->setRawBody($data);
+	$client->setEncType('application/json');
 	
         $request = $client->getRequest();
         return $client->send();
